@@ -1,4 +1,4 @@
-package com.phone_booth.cabin_app
+package com.phone_booth
 
 import io.flutter.embedding.android.FlutterActivity
 
