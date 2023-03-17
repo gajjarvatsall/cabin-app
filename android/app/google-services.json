@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "597436212473",
+    "project_id": "phone-booth-c2cd7",
+    "storage_bucket": "phone-booth-c2cd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597436212473:android:f7ed67fcad6b9d4804ae28",
+        "android_client_info": {
+          "package_name": "com.phone_booth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597436212473-b55elqq7tfopv5e4lf4cpof4e3p4tm0f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.phone_booth",
+            "certificate_hash": "372a1001e79e49aacee0e5504579b8a94e53fc50"
+          }
+        },
+        {
+          "client_id": "597436212473-8s74h3v4ojpbr2rpbg5l4af0dg06l6eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3wzvnqFkmPa0hc0iYj3qt167ru2BeRc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597436212473-6ri3re650oql320jkf812ae6isanc6d6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "597436212473-i1708k5so9f3eadrjmkabscviovm3ekd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.phone-booth"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597436212473:android:8e9bfb1318653b3104ae28",
+        "android_client_info": {
+          "package_name": "com.phone_booth.cabin_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597436212473-8s74h3v4ojpbr2rpbg5l4af0dg06l6eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3wzvnqFkmPa0hc0iYj3qt167ru2BeRc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597436212473-6ri3re650oql320jkf812ae6isanc6d6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "597436212473-i1708k5so9f3eadrjmkabscviovm3ekd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.phone-booth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
