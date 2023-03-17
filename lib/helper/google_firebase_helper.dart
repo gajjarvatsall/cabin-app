@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final auth = FirebaseAuth.instance;
 
-class GoogleAuthenticationDemo {
+class GoogleAuthentication {
   static Future<bool> googleSignIn(context) async {
     bool result = false;
     try {
@@ -35,11 +35,3 @@ class GoogleAuthenticationDemo {
     return result;
   }
 }
-
-/*Future<void> saveUser(GoogleSignInAccount account) async {
-  FirebaseFirestore.instance.collection("users").doc(account.id).set({
-    "email": account.email,
-    "name": account.displayName,
-    "profilePic": account.photoUrl
-  });
-}*/

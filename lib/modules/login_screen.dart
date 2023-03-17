@@ -20,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Image.asset('assets/images/login_screen_image.png'),
             SizedBox(
@@ -31,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: CustomElevatedButton(
                   onTap: () async {
                     bool result =
-                        await GoogleAuthenticationDemo.googleSignIn(context);
+                        await GoogleAuthentication.googleSignIn(context);
                     if (result) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/home', (route) => false);
