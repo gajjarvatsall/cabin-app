@@ -28,7 +28,7 @@ class GoogleAuthentication {
 }
 
 Future<void> saveUser(GoogleSignInAccount account) async {
-  FirebaseFirestore.instance.collection("users").doc(account.email).set({
+  FirebaseFirestore.instance.collection("users").doc().set({
     "email": account.email,
     "name": account.displayName,
     "profilePic": account.photoUrl
