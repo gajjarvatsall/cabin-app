@@ -20,7 +20,10 @@ class GoogleAuthentication {
 
       if (user != null) {
         if (userCredential.additionalUserInfo!.isNewUser) {
-          await FirebaseFirestore.instance.collection("users").doc().set({
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(user.uid)
+              .set({
             "email": user.email,
             "name": user.displayName,
             "profilePic": user.photoURL
