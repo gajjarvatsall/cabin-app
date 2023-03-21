@@ -45,16 +45,29 @@ class _LeftCabinState extends State<LeftCabin> {
                     DocumentSnapshot cabin = snapshot.data!.docs[index];
                     return GestureDetector(
                       onTap: () async {
-                        if (cabin['userId'] == auth.currentUser!.uid &&
-                            cabin['isSelected'] == true) {
-                          obj.updateCabinValue(cabin.id, false, '');
+                        if (cabin['isSelected'] == false) {
+                          if (cabin['userId'] == auth.currentUser!.uid &&
+                              cabin['isSelected'] == true) {
+                            obj.updateCabinValue(cabin.id, false, '');
+                          } else {
+                            bool hasData = await obj
+                                .doesUserIdAlreadyExist(auth.currentUser!.uid);
+                            if (hasData == false) {
+                              obj.updateCabinValue(
+                                  cabin.id, true, auth.currentUser!.uid);
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Your already in a Cabin!"),
+                                duration: Duration(seconds: 2),
+                              ));
+                            }
+                          }
                         } else {
-                          bool hasData = await obj
-                              .doesUserIdAlreadyExist(auth.currentUser!.uid);
-                          if (hasData == false) {
-                            obj.updateCabinValue(
-                                cabin.id, true, auth.currentUser!.uid);
-                          } else {}
+                          if (cabin['userId'] == auth.currentUser!.uid &&
+                              cabin['isSelected'] == true) {
+                            obj.updateCabinValue(cabin.id, false, '');
+                          }
                         }
                       },
                       child: Container(
