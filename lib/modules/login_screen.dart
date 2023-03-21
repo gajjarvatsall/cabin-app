@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: CustomElevatedButton(
                   onTap: () async {
                     bool result =
-                        await GoogleAuthentication.googleSignIn(context);
+                        await GoogleAuthentication.googleUserSignIn(context);
                     if (result) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/home', (route) => false);

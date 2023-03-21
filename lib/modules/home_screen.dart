@@ -18,11 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Meeting Cabins"),
+      ),
       drawer: CustomDrawer(auth: auth, googleSignIn: googleSignIn),
       body: Padding(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
-          child: RightCabin()),
+          child: const RightCabin()),
     );
   }
 }

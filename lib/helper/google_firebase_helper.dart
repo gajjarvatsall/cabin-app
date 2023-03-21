@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final auth = FirebaseAuth.instance;
+final googleSignIn = GoogleSignIn();
 
 class GoogleAuthentication {
-  static Future<bool> googleSignIn(context) async {
+  static Future<bool> googleUserSignIn(context) async {
     bool result = false;
     try {
-      final googleSignIn = GoogleSignIn();
       final googleAccount = await googleSignIn.signIn();
       final googleAuth = await googleAccount?.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -36,5 +36,10 @@ class GoogleAuthentication {
       print(e);
     }
     return result;
+  }
+
+  static Future<void> googleUserSignOut(context) async {
+    await googleSignIn.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 }

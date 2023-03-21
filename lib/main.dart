@@ -1,4 +1,6 @@
 import 'package:cabin_app/modules/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:cabin_app/modules/login_screen.dart';
 import 'package:cabin_app/modules/splash_screens.dart';
 import 'package:flutter/material.dart';
@@ -14,19 +16,46 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Stream<User?> authState;
+  @override
+  void initState() {
+    authState = FirebaseAuth.instance.authStateChanges();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'OpenSans'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      home: StreamBuilder(
+        stream: authState,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('${snapshot.error}'),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return const LoginScreen();
+        },
+      ),
       routes: {
-        '/': (context) => SplashScreen(),
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/splash': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }
