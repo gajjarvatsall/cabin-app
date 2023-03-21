@@ -1,5 +1,6 @@
 import 'package:cabin_app/repository/right_cabin_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RightCabin extends StatefulWidget {
@@ -11,6 +12,8 @@ class RightCabin extends StatefulWidget {
 
 class _RightCabinState extends State<RightCabin> {
   final String cabinRight = 'cabinRight';
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -43,10 +46,18 @@ class _RightCabinState extends State<RightCabin> {
                       DocumentSnapshot cabins = snapshot.data!.docs[index];
                       return GestureDetector(
                         onTap: () async {
-                          if (cabins['isSelected'] == true) {
-                            CabinRepository.updateCabinValue(cabins.id, true);
+                          if (cabins['userId'] == auth.currentUser!.uid &&
+                              cabins['isSelected'] == true) {
+                            CabinRepository.updateCabinValue(
+                                cabins.id, false, '');
                           } else {
-                            CabinRepository.updateCabinValue(cabins.id, false);
+                            bool hasData =
+                                await CabinRepository.doesUserIdAlreadyExist(
+                                    auth.currentUser!.uid);
+                            if (hasData == false) {
+                              CabinRepository.updateCabinValue(
+                                  cabins.id, true, auth.currentUser!.uid);
+                            } else {}
                           }
                         },
                         child: Container(
@@ -59,8 +70,8 @@ class _RightCabinState extends State<RightCabin> {
                                   : Colors.green,
                               border: Border.all(
                                 color: cabins['isSelected'] == true
-                                    ? Colors.green
-                                    : Colors.black38,
+                                    ? Colors.red
+                                    : Colors.green,
                               )),
                           child: Center(
                             child: Text(
