@@ -67,8 +67,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '597436212473',
     projectId: 'phone-booth-c2cd7',
     storageBucket: 'phone-booth-c2cd7.appspot.com',
-    androidClientId: '597436212473-b55elqq7tfopv5e4lf4cpof4e3p4tm0f.apps.googleusercontent.com',
-    iosClientId: '597436212473-lgtner9n5led02hk2ns7suloar25b3rb.apps.googleusercontent.com',
+    androidClientId:
+        '597436212473-b55elqq7tfopv5e4lf4cpof4e3p4tm0f.apps.googleusercontent.com',
+    iosClientId:
+        '597436212473-lgtner9n5led02hk2ns7suloar25b3rb.apps.googleusercontent.com',
     iosBundleId: 'com.phonebooth.cabinApp',
   );
 
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '597436212473',
     projectId: 'phone-booth-c2cd7',
     storageBucket: 'phone-booth-c2cd7.appspot.com',
-    androidClientId: '597436212473-b55elqq7tfopv5e4lf4cpof4e3p4tm0f.apps.googleusercontent.com',
-    iosClientId: '597436212473-lgtner9n5led02hk2ns7suloar25b3rb.apps.googleusercontent.com',
+    androidClientId:
+        '597436212473-b55elqq7tfopv5e4lf4cpof4e3p4tm0f.apps.googleusercontent.com',
+    iosClientId:
+        '597436212473-lgtner9n5led02hk2ns7suloar25b3rb.apps.googleusercontent.com',
     iosBundleId: 'com.phonebooth.cabinApp',
   );
 }

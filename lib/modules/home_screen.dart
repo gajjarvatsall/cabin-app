@@ -1,9 +1,9 @@
-import 'package:cabin_app/widgets/custom_cabin.dart';
+import 'package:cabin_app/widgets/drawer.dart';
+import 'package:cabin_app/widgets/left_cabin.dart';
 import 'package:cabin_app/widgets/right_cabin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cabin_app/widgets/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,10 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: const Text("Meeting Cabins"),
       ),
-      drawer: CustomDrawer(auth: auth, googleSignIn: googleSignIn),
+      drawer: const CustomDrawer(),
       body: Padding(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
-          child: const RightCabin()),
+          child: Column(children: const [LeftCabin(), RightCabin()])),
     );
   }
 }
