@@ -17,8 +17,8 @@ class _LeftCabinState extends State<LeftCabin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Expanded(
+      child: Column(
         children: [
           Text(
             "Left Cabins",
@@ -32,53 +32,50 @@ class _LeftCabinState extends State<LeftCabin> {
                 FirebaseFirestore.instance.collection(cabinLeft).snapshots(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                return Flexible(
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 15,
-                    children:
-                        List.generate(snapshot.data!.docs.length, (index) {
-                      DocumentSnapshot cabin = snapshot.data!.docs[index];
-                      return GestureDetector(
-                        onTap: () async {
-                          if (cabin['isSelected'] == true) {
-                            obj.updateCabinValue(cabin.id, true);
-                          } else {
-                            obj.updateCabinValue(cabin.id, false);
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                return GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 15,
+                  children: List.generate(snapshot.data!.docs.length, (index) {
+                    DocumentSnapshot cabin = snapshot.data!.docs[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        if (cabin['isSelected'] == true) {
+                          obj.updateCabinValue(cabin.id, true);
+                        } else {
+                          obj.updateCabinValue(cabin.id, false);
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: cabin['isSelected'] == true
+                                ? Colors.green
+                                : Colors.white,
+                            border: Border.all(
                               color: cabin['isSelected'] == true
                                   ? Colors.green
-                                  : Colors.white,
-                              border: Border.all(
-                                color: cabin['isSelected'] == true
-                                    ? Colors.green
-                                    : Colors.black38,
-                              )),
-                          child: Center(
-                            child: Text(
-                              "${index + 1}",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: cabin['isSelected'] == true
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
+                                  : Colors.black38,
+                            )),
+                        child: Center(
+                          child: Text(
+                            "${index + 1}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: cabin['isSelected'] == true
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),
-                      );
-                    }),
-                  ),
+                      ),
+                    );
+                  }),
                 );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());

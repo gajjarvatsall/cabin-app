@@ -1,21 +1,24 @@
+import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/utils/constants.dart';
-import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/widgets/elevated_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
     super.key,
-    required this.auth,
-    required this.googleSignIn,
   });
 
-  final FirebaseAuth auth;
-  final GoogleSignIn googleSignIn;
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {

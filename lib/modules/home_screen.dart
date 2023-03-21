@@ -22,10 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: const Text("Meeting Cabins"),
       ),
-      drawer: CustomDrawer(auth: auth, googleSignIn: googleSignIn),
+      drawer: const CustomDrawer(),
       body: Padding(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
-          child: const LeftCabin()),
+          child: Column(children: const [LeftCabin(), RightCabin()])),
     );
   }
 }
