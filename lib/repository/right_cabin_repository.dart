@@ -11,7 +11,7 @@ class CabinRepository {
         .update({'isSelected': isSelected, 'userId': userId});
   }
 
-  static Future<bool> doesNameAlreadyExist(String userId) async {
+  static Future<bool> doesUserIdAlreadyExist(String userId) async {
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection(cabinRight)
         .where('userId', isEqualTo: userId)

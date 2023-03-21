@@ -52,7 +52,7 @@ class _RightCabinState extends State<RightCabin> {
                                 cabins.id, false, '');
                           } else {
                             bool hasData =
-                                await CabinRepository.doesNameAlreadyExist(
+                                await CabinRepository.doesUserIdAlreadyExist(
                                     auth.currentUser!.uid);
                             if (hasData == false) {
                               CabinRepository.updateCabinValue(
