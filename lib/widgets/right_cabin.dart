@@ -46,18 +46,33 @@ class _RightCabinState extends State<RightCabin> {
                       DocumentSnapshot cabins = snapshot.data!.docs[index];
                       return GestureDetector(
                         onTap: () async {
-                          if (cabins['userId'] == auth.currentUser!.uid &&
-                              cabins['isSelected'] == true) {
-                            CabinRepository.updateCabinValue(
-                                cabins.id, false, '');
-                          } else {
-                            bool hasData =
-                                await CabinRepository.doesUserIdAlreadyExist(
-                                    auth.currentUser!.uid);
-                            if (hasData == false) {
+                          if (cabins['isSelected'] == false) {
+                            if (cabins['userId'] == auth.currentUser!.uid &&
+                                cabins['isSelected'] == true) {
                               CabinRepository.updateCabinValue(
-                                  cabins.id, true, auth.currentUser!.uid);
-                            } else {}
+                                  cabins.id, false, '');
+                            } else {
+                              bool hasData =
+                                  await CabinRepository.doesUserIdAlreadyExist(
+                                      auth.currentUser!.uid);
+                              if (hasData == false &&
+                                  cabins['isSelected'] == false) {
+                                CabinRepository.updateCabinValue(
+                                    cabins.id, true, auth.currentUser!.uid);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("Your already in a Cabin !"),
+                                  duration: Duration(seconds: 2),
+                                ));
+                              }
+                            }
+                          } else {
+                            if (cabins['userId'] == auth.currentUser!.uid &&
+                                cabins['isSelected'] == true) {
+                              CabinRepository.updateCabinValue(
+                                  cabins.id, false, '');
+                            }
                           }
                         },
                         child: Container(
