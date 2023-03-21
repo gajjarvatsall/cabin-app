@@ -1,5 +1,6 @@
 import 'package:cabin_app/widgets/drawer.dart';
 import 'package:cabin_app/widgets/left_cabin.dart';
+import 'package:cabin_app/widgets/right_cabin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,13 +15,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final googleSignIn = GoogleSignIn();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Meeting Cabins"),
         centerTitle: true,
+        title: const Text("Meeting Cabins"),
       ),
       drawer: CustomDrawer(auth: auth, googleSignIn: googleSignIn),
       body: Padding(

@@ -1,5 +1,6 @@
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/utils/constants.dart';
+import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/widgets/elevated_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,12 +53,13 @@ class CustomDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: CustomElevatedButton(
-                onTap: () {
-                  googleSignIn.signOut();
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (route) => false);
-                },
-                text: ("Sign out")),
+              onTap: () async {
+                GoogleAuthentication.googleUserSignOut(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+              },
+              text: ("Sign out"),
+            ),
           ),
         ],
       ),
