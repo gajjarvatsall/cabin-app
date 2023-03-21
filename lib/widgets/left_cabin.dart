@@ -2,6 +2,7 @@ import 'package:cabin_app/repository/left_cabin_repository.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LeftCabin extends StatefulWidget {
@@ -13,6 +14,7 @@ class LeftCabin extends StatefulWidget {
 
 class _LeftCabinState extends State<LeftCabin> {
   final String cabinLeft = 'cabinLeft';
+  final FirebaseAuth auth = FirebaseAuth.instance;
   CabinRepository obj = CabinRepository();
 
   @override
@@ -43,10 +45,16 @@ class _LeftCabinState extends State<LeftCabin> {
                     DocumentSnapshot cabin = snapshot.data!.docs[index];
                     return GestureDetector(
                       onTap: () async {
-                        if (cabin['isSelected'] == true) {
-                          obj.updateCabinValue(cabin.id, true);
+                        if (cabin['userId'] == auth.currentUser!.uid &&
+                            cabin['isSelected'] == true) {
+                          obj.updateCabinValue(cabin.id, false, '');
                         } else {
-                          obj.updateCabinValue(cabin.id, false);
+                          bool hasData = await obj
+                              .doesUserIdAlreadyExist(auth.currentUser!.uid);
+                          if (hasData == false) {
+                            obj.updateCabinValue(
+                                cabin.id, true, auth.currentUser!.uid);
+                          } else {}
                         }
                       },
                       child: Container(
@@ -55,12 +63,12 @@ class _LeftCabinState extends State<LeftCabin> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: cabin['isSelected'] == true
-                                ? Colors.green
-                                : Colors.white,
+                                ? Colors.red
+                                : Colors.green,
                             border: Border.all(
                               color: cabin['isSelected'] == true
-                                  ? Colors.green
-                                  : Colors.black38,
+                                  ? Colors.red
+                                  : Colors.green,
                             )),
                         child: Center(
                           child: Text(
@@ -69,7 +77,7 @@ class _LeftCabinState extends State<LeftCabin> {
                               fontSize: 20,
                               color: cabin['isSelected'] == true
                                   ? Colors.white
-                                  : Colors.black,
+                                  : Colors.white,
                             ),
                           ),
                         ),
