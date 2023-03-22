@@ -16,33 +16,36 @@ class _RightCabinState extends State<RightCabin> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          const Text(
-            "Right cabins",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
+    return Column(
+      children: [
+        const Text(
+          "Right cabins",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream:
-                  FirebaseFirestore.instance.collection(cabinRight).snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.count(
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream:
+                FirebaseFirestore.instance.collection(cabinRight).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 15,
-                    children:
-                        List.generate(snapshot.data!.docs.length, (index) {
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 1,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 15,
+                    ),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
                       DocumentSnapshot cabins = snapshot.data!.docs[index];
                       return GestureDetector(
                         onTap: () async {
@@ -99,19 +102,17 @@ class _RightCabinState extends State<RightCabin> {
                           ),
                         ),
                       );
-                    }),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
+                    });
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 }
