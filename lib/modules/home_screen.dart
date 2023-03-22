@@ -24,8 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: const CustomDrawer(),
       body: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
-          child: Column(children: const [LeftCabin(), RightCabin()])),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              LeftCabin(),
+              RightCabin(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
