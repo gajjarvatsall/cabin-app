@@ -28,8 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                 child: CustomElevatedButton(
                   onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false);
+                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                   },
                   text: "Get started",
                 ))
