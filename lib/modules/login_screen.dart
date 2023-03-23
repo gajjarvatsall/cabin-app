@@ -29,11 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                 child: CustomElevatedButton(
                   onTap: () async {
-                    bool result =
-                        await GoogleAuthentication.googleUserSignIn(context);
+                    bool result = await GoogleAuthentication.googleUserSignIn(context);
                     if (result) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/home', (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                     }
                   },
                   text: "SignIn with Google",

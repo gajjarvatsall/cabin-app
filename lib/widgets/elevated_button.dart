@@ -6,6 +6,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onTap,
     required this.text,
   });
+
   String text;
   Function onTap;
 

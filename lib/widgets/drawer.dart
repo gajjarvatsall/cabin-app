@@ -58,8 +58,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             child: CustomElevatedButton(
               onTap: () async {
                 GoogleAuthentication.googleUserSignOut(context);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
               },
               text: ("Sign out"),
             ),
