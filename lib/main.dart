@@ -1,10 +1,11 @@
 import 'package:cabin_app/modules/home_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:cabin_app/modules/login_screen.dart';
 import 'package:cabin_app/modules/splash_screens.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -12,6 +13,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((value) => runApp(MyApp()));
 
   runApp(const MyApp());
 }
@@ -25,6 +30,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Stream<User?> authState;
+
   @override
   void initState() {
     authState = FirebaseAuth.instance.authStateChanges();
@@ -34,7 +40,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'OpenSans'),
+      theme: ThemeData(fontFamily: 'OpenSans', useMaterial3: true),
       debugShowCheckedModeBanner: false,
       home: StreamBuilder(
         stream: authState,
