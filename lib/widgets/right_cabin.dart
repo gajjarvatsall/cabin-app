@@ -3,7 +3,6 @@ import 'package:cabin_app/repository/right_cabin_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 
 class RightCabin extends StatefulWidget {
   const RightCabin({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class _RightCabinState extends State<RightCabin> {
   @override
   void initState() {
     super.initState();
-    onTapped.getData();
+    OnTapped.getData();
   }
 
   @override
@@ -56,38 +55,29 @@ class _RightCabinState extends State<RightCabin> {
                       return GestureDetector(
                         onTap: () async {
                           /// Stored a variable locally for isTappedIn or Not
-                          bool isTapped = onTapped.getStorage.read('isTap');
+                          bool isTapped = OnTapped.getStorage.read('isTap');
 
                           /// Check if any of cabin is selected or not
-
                           if (cabins['isSelected'] == false) {
-                            /// Check if cabin is selected with auth user id and local variable is true
+                            bool hasData = await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
 
-                            if (cabins['userId'] == auth.currentUser!.uid && cabins['isSelected'] == true && isTapped) {
-                              CabinRepository.updateCabinValue(cabins.id, false, '');
-                              onTapped.getStorage.write('isTap', false);
+                            /// Check if user not in any cabin and not selected any cabin and local variable is false
+                            if (hasData == false && cabins['isSelected'] == false && !isTapped) {
+                              CabinRepository.updateCabinValue(cabins.id, true, auth.currentUser!.uid);
+                              OnTapped.getStorage.write('isTap', true);
                             } else {
-                              /// Check if user already in any cabin
-                              bool hasData = await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
-
-                              /// Check if user not in any cabin and not selected any cabin and local variable is false
-                              if (hasData == false && cabins['isSelected'] == false && !isTapped) {
-                                CabinRepository.updateCabinValue(cabins.id, true, auth.currentUser!.uid);
-                                onTapped.getStorage.write('isTap', true);
-                              } else {
-                                /// Show that user has been already in cabin
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text("You are already in a Cabin !"),
-                                  duration: Duration(seconds: 1),
-                                ));
-                              }
+                              /// Show that user has been already in cabin
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("You are already in a Cabin !"),
+                                duration: Duration(milliseconds: 500),
+                              ));
                             }
                           } else {
                             /// TAP-OUT
                             /// Check if user has been already in cabin and local variable is true
                             if (cabins['userId'] == auth.currentUser!.uid && cabins['isSelected'] == true && isTapped) {
                               CabinRepository.updateCabinValue(cabins.id, false, '');
-                              onTapped.getStorage.write('isTap', false);
+                              OnTapped.getStorage.write('isTap', false);
                             }
                           }
                         },

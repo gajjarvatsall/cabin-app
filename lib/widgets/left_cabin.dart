@@ -48,75 +48,30 @@ class _LeftCabinState extends State<LeftCabin> {
                     DocumentSnapshot cabins = snapshot.data!.docs[index];
                     return GestureDetector(
                       onTap: () async {
-                        /* if (onTapped.isTap == false) {
-                          onTapped.isTap = true;
-                          onTapped.getStorage.write('isTap', true);
-                          print("+++++++++++++${onTapped.isTap}");
-                          if (cabin['isSelected'] == false) {
-                            if (cabin['userId'] == auth.currentUser!.uid &&
-                                cabin['isSelected'] == true) {
-                              obj.updateCabinValue(cabin.id, false, '');
-                            } else {
-                              bool hasData = await obj.doesUserIdAlreadyExist(
-                                  auth.currentUser!.uid);
-                              if (hasData == false) {
-                                obj.updateCabinValue(
-                                    cabin.id, true, auth.currentUser!.uid);
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("Your already in a Cabin!"),
-                                  duration: Duration(seconds: 2),
-                                ));
-                              }
-                            }
-                          } else {
-                            if (cabin['userId'] == auth.currentUser!.uid &&
-                                cabin['isSelected'] == true) {
-                              obj.updateCabinValue(cabin.id, false, '');
-                            }
-                          }
-                        } else {
-                          if (cabin['userId'] == auth.currentUser!.uid &&
-                              cabin['isSelected'] == true) {
-                            obj.updateCabinValue(cabin.id, false, '');
-                          }
-                          onTapped.getStorage.write('isTap', false);
-                          onTapped.isTap = false;
-                          print("-------------${onTapped.isTap}");*/
-                        // }
-                        bool isTapped = onTapped.getStorage.read('isTap');
-                        print('isTapped - Left $isTapped');
+                        /// Stored a variable locally for isTappedIn or Not
+                        bool isTapped = OnTapped.getStorage.read('isTap');
 
+                        /// Check if any of cabin is selected or not
                         if (cabins['isSelected'] == false) {
-                          if (cabins['userId'] == auth.currentUser!.uid &&
-                              cabins['isSelected'] == true &&
-                              isTapped) {
-                            obj.updateCabinValue(cabins.id, false, '');
-                            onTapped.getStorage.write('isTap', false);
+                          bool hasData = await obj.doesUserIdAlreadyExist(auth.currentUser!.uid);
+
+                          /// Check if user not in any cabin and not selected any cabin and local variable is false
+                          if (hasData == false && cabins['isSelected'] == false && !isTapped) {
+                            obj.updateCabinValue(cabins.id, true, auth.currentUser!.uid);
+                            OnTapped.getStorage.write('isTap', true);
                           } else {
-                            bool hasData = await obj
-                                .doesUserIdAlreadyExist(auth.currentUser!.uid);
-                            if (hasData == false &&
-                                cabins['isSelected'] == false &&
-                                !isTapped) {
-                              obj.updateCabinValue(
-                                  cabins.id, true, auth.currentUser!.uid);
-                              onTapped.getStorage.write('isTap', true);
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("You are already in a Cabin !"),
-                                duration: Duration(seconds: 2),
-                              ));
-                            }
+                            /// Show that user has been already in cabin
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("You are already in a Cabin !"),
+                              duration: Duration(milliseconds: 500),
+                            ));
                           }
                         } else {
-                          if (cabins['userId'] == auth.currentUser!.uid &&
-                              cabins['isSelected'] == true &&
-                              isTapped) {
+                          /// TAP-OUT
+                          /// Check if user has been already in cabin and local variable is true
+                          if (cabins['userId'] == auth.currentUser!.uid && cabins['isSelected'] == true && isTapped) {
                             obj.updateCabinValue(cabins.id, false, '');
-                            onTapped.getStorage.write('isTap', false);
+                            OnTapped.getStorage.write('isTap', false);
                           }
                         }
                       },
@@ -125,22 +80,16 @@ class _LeftCabinState extends State<LeftCabin> {
                         width: 50,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: cabins['isSelected'] == true
-                                ? Colors.red
-                                : Colors.green,
+                            color: cabins['isSelected'] == true ? Colors.red : Colors.green,
                             border: Border.all(
-                              color: cabins['isSelected'] == true
-                                  ? Colors.red
-                                  : Colors.green,
+                              color: cabins['isSelected'] == true ? Colors.red : Colors.green,
                             )),
                         child: Center(
                           child: Text(
                             "${index + 1}",
                             style: TextStyle(
                               fontSize: 20,
-                              color: cabins['isSelected'] == true
-                                  ? Colors.white
-                                  : Colors.white,
+                              color: cabins['isSelected'] == true ? Colors.white : Colors.white,
                             ),
                           ),
                         ),
