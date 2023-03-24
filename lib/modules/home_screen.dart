@@ -1,5 +1,4 @@
 import 'package:cabin_app/widgets/cabin.dart';
-import 'package:cabin_app/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,11 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Meeting Cabins"),
-      ),
-      drawer: const CustomDrawer(),
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
         child: const Cabin(),
