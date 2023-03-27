@@ -62,29 +62,54 @@ class _CabinState extends State<Cabin> {
                           log("documentSnapshot['isSelected']: ${documentSnapshot['isSelected']}");
                           return GestureDetector(
                             onTap: () async {
-                              /// Checks if the cabin is selected
-                              if (documentSnapshot['isSelected'] == true) {
-                                /// Checks if userId is equal to auth userId
-                                if (documentSnapshot['userId'] == auth.currentUser!.uid) {
-                                  /// TAP-OUT
-                                  CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
-                                }
-                              } else {
-                                bool hasData = await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: documentSnapshot['isSelected'] == true
+                                      ? const Text('Are you sure! you want to TAP OUT ?')
+                                      : const Text('Are you sure! you want to TAP IN ?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        /// Checks if the cabin is selected
+                                        if (documentSnapshot['isSelected'] == true) {
+                                          /// Checks if userId is equal to auth userId
+                                          if (documentSnapshot['userId'] == auth.currentUser!.uid) {
+                                            /// TAP-OUT
+                                            CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
+                                          }
+                                        } else {
+                                          bool hasData =
+                                              await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
 
-                                /// Checks if user is in any cabin
-                                if (hasData == true) {
-                                  /// Show that user has been already in cabin
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("You are already in a Cabin!"),
-                                    duration: Duration(milliseconds: 500),
-                                  ));
-                                } else {
-                                  /// TAP-IN
-                                  CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                      auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
-                                }
-                              }
+                                          /// Checks if user is in any cabin
+                                          if (hasData == true) {
+                                            /// Show that user has been already in cabin
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                              content: Text("You are already in a Cabin!"),
+                                              duration: Duration(milliseconds: 500),
+                                            ));
+                                          } else {
+                                            /// TAP-IN
+                                            CabinRepository.updateCabinValue(
+                                                documentSnapshot.id,
+                                                true,
+                                                auth.currentUser!.uid,
+                                                auth.currentUser!.displayName.toString(),
+                                                auth.currentUser!.photoURL.toString());
+                                          }
+                                        }
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Continue'),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -95,10 +120,12 @@ class _CabinState extends State<Cabin> {
                                   height: MediaQuery.of(context).size.width / 11,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
+                                      color:
+                                          documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
                                       border: Border.all(
                                         width: 3,
-                                        color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.green,
+                                        color:
+                                            documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.green,
                                       )),
                                   child: documentSnapshot['isSelected'] == true
                                       ? CircleAvatar(
@@ -172,29 +199,54 @@ class _CabinState extends State<Cabin> {
                           log("documentSnapshot['isSelected']: ${documentSnapshot['isSelected']}");
                           return GestureDetector(
                             onTap: () async {
-                              /// Checks if the cabin is selected
-                              if (documentSnapshot['isSelected'] == true) {
-                                /// Checks if userId is equal to auth userId
-                                if (documentSnapshot['userId'] == auth.currentUser!.uid) {
-                                  /// TAP-OUT
-                                  CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
-                                }
-                              } else {
-                                bool hasData = await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: documentSnapshot['isSelected'] == true
+                                      ? const Text('Are you sure! you want to TAP OUT ?')
+                                      : const Text('Are you sure! you want to TAP IN ?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        /// Checks if the cabin is selected
+                                        if (documentSnapshot['isSelected'] == true) {
+                                          /// Checks if userId is equal to auth userId
+                                          if (documentSnapshot['userId'] == auth.currentUser!.uid) {
+                                            /// TAP-OUT
+                                            CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
+                                          }
+                                        } else {
+                                          bool hasData =
+                                              await CabinRepository.doesUserIdAlreadyExist(auth.currentUser!.uid);
 
-                                /// Checks if user is in any cabin
-                                if (hasData == true) {
-                                  /// Show that user has been already in cabin
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("You are already in a Cabin!"),
-                                    duration: Duration(milliseconds: 500),
-                                  ));
-                                } else {
-                                  /// TAP-IN
-                                  CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                      auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
-                                }
-                              }
+                                          /// Checks if user is in any cabin
+                                          if (hasData == true) {
+                                            /// Show that user has been already in cabin
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                              content: Text("You are already in a Cabin!"),
+                                              duration: Duration(milliseconds: 500),
+                                            ));
+                                          } else {
+                                            /// TAP-IN
+                                            CabinRepository.updateCabinValue(
+                                                documentSnapshot.id,
+                                                true,
+                                                auth.currentUser!.uid,
+                                                auth.currentUser!.displayName.toString(),
+                                                auth.currentUser!.photoURL.toString());
+                                          }
+                                        }
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Continue'),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -205,10 +257,12 @@ class _CabinState extends State<Cabin> {
                                   height: MediaQuery.of(context).size.width / 11,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
+                                      color:
+                                          documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
                                       border: Border.all(
                                         width: 3,
-                                        color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.green,
+                                        color:
+                                            documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.green,
                                       )),
                                   child: documentSnapshot['isSelected'] == true
                                       ? CircleAvatar(
