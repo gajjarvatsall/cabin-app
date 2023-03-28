@@ -14,4 +14,9 @@ class CabinRepository {
     final List<DocumentSnapshot> documents = result.docs;
     return documents.length == 1;
   }
+
+// static Future<String> getUserProfile(String id) async {
+//   DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance.collection('users').doc(id).get();
+//   return data['name'];
+// }
 }

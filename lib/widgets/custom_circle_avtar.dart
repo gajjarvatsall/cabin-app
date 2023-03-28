@@ -7,27 +7,32 @@ class CustomCircleAvatar extends StatelessWidget {
     super.key,
     required this.auth,
     required this.imgUrl,
+    this.width,
+    this.height,
   });
 
   final FirebaseAuth auth;
   final String imgUrl;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      minRadius: 0,
       backgroundColor: Colors.transparent,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),
         child: CachedNetworkImage(
           imageUrl: imgUrl,
+          width: width,
+          height: height,
           fit: BoxFit.cover,
           alignment: Alignment.center,
           errorWidget: (context, url, error) => Image.asset(
             "assets/images/person.png",
-            width: 80,
-            height: 80,
             fit: BoxFit.cover,
+            width: width,
+            height: height,
           ),
         ),
       ),
