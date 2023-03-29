@@ -21,19 +21,21 @@ class Cabin extends StatefulWidget {
 class _CabinState extends State<Cabin> {
   final String cabins = 'cabins';
   final FirebaseAuth auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
                 'assets/images/logo-grid-dark.svg',
-                width: MediaQuery.of(context).size.width / 14,
-                height: MediaQuery.of(context).size.height / 14,
+                width: width / 17,
+                height: height / 17,
                 fit: BoxFit.cover,
               ),
               Text(
@@ -50,22 +52,31 @@ class _CabinState extends State<Cabin> {
                   );
                 },
                 child: SizedBox(
-                  height: 60,
-                  width: 60,
+                  height: 50,
+                  width: 50,
                   child: CustomCircleAvatar(auth: auth, imgUrl: "${auth.currentUser!.photoURL}"),
                 ),
               ),
             ],
           ),
           const Divider(),
-          SizedBox(
-            height: 70,
-            width: MediaQuery.of(context).size.width,
-            child: Marquee(
-              text: 'Welcome To 7Span * ',
-              style: AppTheme.titleText,
-            ),
-          ),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance.collection(cabins).snapshots(),
+              builder: (context, snapshot) {
+                return FutureBuilder(
+                    future: CabinRepository.userData(),
+                    builder: (context, snapShot) {
+                      return (snapShot.data?.isNotEmpty ?? false)
+                          ? SizedBox(
+                              height: 50,
+                              child: Marquee(
+                                text: snapShot.data ?? ' Welcome To 7span ',
+                                style: AppTheme.titleText,
+                              ),
+                            )
+                          : Container();
+                    });
+              }),
           const Divider(),
           SizedBox(
             height: AppConstants.height,
@@ -88,6 +99,7 @@ class _CabinState extends State<Cabin> {
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

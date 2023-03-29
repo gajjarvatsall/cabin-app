@@ -14,13 +14,15 @@ class CustomCabin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final FirebaseAuth auth = FirebaseAuth.instance;
     return Tooltip(
       message: documentSnapshot['isSelected'] == true ? "${documentSnapshot['userName']}" : "",
       child: Container(
         margin: const EdgeInsets.all(5),
-        width: MediaQuery.of(context).size.width / 12,
-        height: MediaQuery.of(context).size.width / 12,
+        width: width / 12,
+        height: width / 12,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
