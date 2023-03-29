@@ -1,3 +1,4 @@
+import 'package:cabin_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -17,11 +18,17 @@ class CustomDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          child: Text(
+            'Naa',
+            style: AppTheme.titleText,
+          ),
         ),
         TextButton(
           onPressed: onPressed,
-          child: const Text('Continue'),
+          child: Text(
+            'Haa',
+            style: AppTheme.titleText,
+          ),
         ),
       ],
     );
