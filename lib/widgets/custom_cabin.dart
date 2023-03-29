@@ -25,13 +25,17 @@ class CustomCabin extends StatelessWidget {
         height: width / 12,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
+            // color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
             border: Border.all(
-              width: 3,
-              color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.green,
+              width: documentSnapshot['isSelected'] == true ? 0 : 1,
+              color: documentSnapshot['isSelected'] == true ? Colors.transparent : Colors.green,
             )),
         child: documentSnapshot['isSelected'] == true
-            ? CustomCircleAvatar(auth: auth, imgUrl: documentSnapshot['userPic'])
+            ? CustomCircleAvatar(
+                auth: auth,
+                imgUrl: documentSnapshot['userPic'],
+                radius: 10,
+              )
             : Center(
                 child: Text(
                   "${documentSnapshot['cabinName']}",

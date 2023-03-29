@@ -1,10 +1,11 @@
+import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/repository/cabin_repository.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/utils/constants.dart';
 import 'package:cabin_app/widgets/custom_cabin.dart';
 import 'package:cabin_app/widgets/custom_circle_avtar.dart';
 import 'package:cabin_app/widgets/custom_dialog.dart';
-import 'package:cabin_app/widgets/custom_logout_box.dart';
+import 'package:cabin_app/widgets/custom_image_dailog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class Cabin extends StatefulWidget {
 class _CabinState extends State<Cabin> {
   final String cabins = 'cabins';
   final FirebaseAuth auth = FirebaseAuth.instance;
+  bool isVisible = false;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -47,37 +50,54 @@ class _CabinState extends State<Cabin> {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return const LogoutPopup();
+                      return CustomDialog(
+                        title: "Are you sure do you want to Logout?",
+                        onPressed: () {
+                          GoogleAuthentication.googleUserSignOut(context);
+                          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                        },
+                      );
                     },
                   );
                 },
                 child: SizedBox(
                   height: 50,
                   width: 50,
-                  child: CustomCircleAvatar(auth: auth, imgUrl: "${auth.currentUser!.photoURL}"),
+                  child: CustomCircleAvatar(
+                    auth: auth,
+                    imgUrl: "${auth.currentUser!.photoURL}",
+                    radius: 100,
+                  ),
                 ),
               ),
             ],
           ),
           const Divider(),
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection(cabins).snapshots(),
-              builder: (context, snapshot) {
-                return FutureBuilder(
-                    future: CabinRepository.userData(),
-                    builder: (context, snapShot) {
-                      return (snapShot.data?.isNotEmpty ?? false)
-                          ? SizedBox(
+            stream: FirebaseFirestore.instance.collection(cabins).snapshots(),
+            builder: (context, snapshot) {
+              return FutureBuilder(
+                future: CabinRepository.userData(),
+                builder: (context, snapShot) {
+                  return (snapShot.data?.isNotEmpty ?? false)
+                      ? Column(
+                          children: [
+                            SizedBox(
                               height: 50,
                               child: Marquee(
+                                blankSpace: 100,
                                 text: snapShot.data ?? ' Welcome To 7span ',
                                 style: AppTheme.titleText,
                               ),
-                            )
-                          : Container();
-                    });
-              }),
-          const Divider(),
+                            ),
+                            const Divider(),
+                          ],
+                        )
+                      : Container();
+                },
+              );
+            },
+          ),
           SizedBox(
             height: AppConstants.height,
           ),
@@ -120,7 +140,7 @@ class _CabinState extends State<Cabin> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomDialog(
-                                        title: 'Are you sure you want to tap OUT?',
+                                        title: 'Bus Dost Javu J Che?',
                                         onPressed: () {
                                           CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
                                           Navigator.pop(context);
@@ -137,7 +157,7 @@ class _CabinState extends State<Cabin> {
                                   /// Show that user has been already in cabin
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                     content: Text("You are already in a Cabin!"),
-                                    duration: Duration(milliseconds: 500),
+                                    duration: Duration(seconds: 1),
                                   ));
                                 } else {
                                   /// TAP-IN
@@ -146,14 +166,10 @@ class _CabinState extends State<Cabin> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomDialog(
-                                        title: "Are you sure you want to tap IN?",
+                                        title: "Bau Var Na Lagadata Ho",
                                         onPressed: () {
-                                          CabinRepository.updateCabinValue(
-                                              documentSnapshot.id,
-                                              true,
-                                              auth.currentUser!.uid,
-                                              auth.currentUser!.displayName.toString(),
-                                              auth.currentUser!.photoURL.toString());
+                                          CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
+                                              auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
                                           Navigator.pop(context);
                                         },
                                       );
@@ -195,7 +211,7 @@ class _CabinState extends State<Cabin> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'Are you sure you want to tap OUT?',
+                                      title: 'Bus Dost Javu J Che?',
                                       onPressed: () {
                                         CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
                                         Navigator.pop(context);
@@ -212,7 +228,7 @@ class _CabinState extends State<Cabin> {
                                 /// Show that user has been already in cabin
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                   content: Text("You are already in a Cabin!"),
-                                  duration: Duration(milliseconds: 500),
+                                  duration: Duration(seconds: 1),
                                 ));
                               } else {
                                 /// TAP-IN
@@ -221,19 +237,29 @@ class _CabinState extends State<Cabin> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'Are you sure you want to tap IN?',
+                                      title: 'Bau Var Na Lagadata Ho',
                                       onPressed: () async {
-                                        CabinRepository.updateCabinValue(
-                                            documentSnapshot.id,
-                                            true,
-                                            auth.currentUser!.uid,
-                                            auth.currentUser!.displayName.toString(),
-                                            auth.currentUser!.photoURL.toString());
+                                        CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
+                                            auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
                                         Navigator.of(context).pop();
 
                                         //   Navigator.pop(context);
                                       },
                                     );
+                                  },
+                                );
+                              }
+                            }
+                            if (documentSnapshot['isSelected'] == true) {
+                              if (documentSnapshot['userId'] != auth.currentUser!.uid && documentSnapshot['userId'] != null) {
+                                if (!mounted) return;
+                                await showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    Future.delayed(const Duration(seconds: 2), () {
+                                      Navigator.of(context).pop(true);
+                                    });
+                                    return ImageDialog();
                                   },
                                 );
                               }
@@ -246,7 +272,7 @@ class _CabinState extends State<Cabin> {
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return Container();
                   }
                 },
               ),
