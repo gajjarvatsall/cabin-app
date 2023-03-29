@@ -136,8 +136,12 @@ class _CabinState extends State<Cabin> {
                                       return CustomDialog(
                                         title: "Are you sure you want to tap IN?",
                                         onPressed: () {
-                                          CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                              auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                          CabinRepository.updateCabinValue(
+                                              documentSnapshot.id,
+                                              true,
+                                              auth.currentUser!.uid,
+                                              auth.currentUser!.displayName.toString(),
+                                              auth.currentUser!.photoURL.toString());
                                           Navigator.pop(context);
                                         },
                                       );
@@ -207,8 +211,12 @@ class _CabinState extends State<Cabin> {
                                     return CustomDialog(
                                       title: 'Are you sure you want to tap IN?',
                                       onPressed: () async {
-                                        CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                            auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                        CabinRepository.updateCabinValue(
+                                            documentSnapshot.id,
+                                            true,
+                                            auth.currentUser!.uid,
+                                            auth.currentUser!.displayName.toString(),
+                                            auth.currentUser!.photoURL.toString());
                                         Navigator.of(context).pop();
 
                                         //   Navigator.pop(context);
