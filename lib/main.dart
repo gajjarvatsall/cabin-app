@@ -1,6 +1,5 @@
 import 'package:cabin_app/modules/home_screen.dart';
 import 'package:cabin_app/modules/login_screen.dart';
-import 'package:cabin_app/modules/splash_screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +61,6 @@ class _MyAppState extends State<MyApp> {
         },
       ),
       routes: {
-        '/splash': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
       },
