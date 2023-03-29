@@ -15,6 +15,22 @@ class CabinRepository {
     return documents.length == 1;
   }
 
+  static Future<String> userData() async {
+    final QuerySnapshot result = await FirebaseFirestore.instance.collection('cabins').where('userName', isNotEqualTo: '').get();
+    final List<DocumentSnapshot> documents = result.docs;
+    String formatted = '';
+    for (var element in documents) {
+      if (element['userName'].toString().isNotEmpty) {
+        if (formatted.isNotEmpty) {
+          formatted = '${formatted + element['userName']} is In Cabin ${element['cabinName']} • ';
+        } else {
+          formatted = element['userName'] + ' is In Cabin ${element['cabinName']} • ';
+        }
+      }
+    }
+    return formatted;
+  }
+
 // static Future<String> getUserProfile(String id) async {
 //   DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance.collection('users').doc(id).get();
 //   return data['name'];
