@@ -2,7 +2,7 @@
     package="com.phone_booth">
 
     <application
-        android:label="cabin_app"
+        android:label="Cabin Cast"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
