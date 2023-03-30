@@ -1,6 +1,6 @@
 {
-    "name": "cabin_app",
-    "short_name": "cabin_app",
+    "name": "Cabin Cast",
+    "short_name": "Cabin Cast",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
