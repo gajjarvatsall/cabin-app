@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthentication {
@@ -7,6 +8,16 @@ class GoogleAuthentication {
   static final googleSignIn = GoogleSignIn();
 
   static Future<bool> googleUserSignIn(context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        );
+      },
+    );
     bool result = false;
     try {
       final googleAccount = await googleSignIn.signIn();
@@ -24,7 +35,9 @@ class GoogleAuthentication {
         }
         result = true;
       }
+      Navigator.of(context).pop();
       return result;
+      Navigator.of(context).pop();
     } catch (e) {
       print(e);
     }

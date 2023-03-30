@@ -43,7 +43,7 @@ class _CabinState extends State<Cabin> {
               ),
               Text(
                 "Welcome To 7Span",
-                style: AppTheme.titleText,
+                style: AppTheme.titleText.copyWith(fontWeight: FontWeight.w600),
               ),
               GestureDetector(
                 onTap: () {
@@ -56,6 +56,8 @@ class _CabinState extends State<Cabin> {
                           GoogleAuthentication.googleUserSignOut(context);
                           Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                         },
+                        button1Title: 'Cancel',
+                        button2Title: 'Ok',
                       );
                     },
                   );
@@ -106,11 +108,11 @@ class _CabinState extends State<Cabin> {
             children: [
               Text(
                 "Left Cabin",
-                style: AppTheme.titleText,
+                style: AppTheme.titleText.copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
                 "Right Cabin",
-                style: AppTheme.titleText,
+                style: AppTheme.titleText.copyWith(fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -145,6 +147,8 @@ class _CabinState extends State<Cabin> {
                                           CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
                                           Navigator.pop(context);
                                         },
+                                        button1Title: 'Naa',
+                                        button2Title: 'Haa',
                                       );
                                     },
                                   );
@@ -155,6 +159,7 @@ class _CabinState extends State<Cabin> {
                                 /// Checks if user is in any cabin
                                 if (hasData == true) {
                                   /// Show that user has been already in cabin
+                                  if (!mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                     content: Text("You are already in a Cabin!"),
                                     duration: Duration(seconds: 1),
@@ -166,13 +171,29 @@ class _CabinState extends State<Cabin> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomDialog(
-                                        title: "Bau Var Na Lagadata Ho",
+                                        title: "Bau var na lagadata ho",
                                         onPressed: () {
                                           CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
                                               auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
                                           Navigator.pop(context);
                                         },
+                                        button1Title: 'Naa',
+                                        button2Title: 'Haa',
                                       );
+                                    },
+                                  );
+                                }
+                              }
+                              if (documentSnapshot['isSelected'] == true) {
+                                if (documentSnapshot['userId'] != auth.currentUser!.uid && documentSnapshot['userId'] != null) {
+                                  if (!mounted) return;
+                                  await showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      Future.delayed(const Duration(seconds: 2), () {
+                                        Navigator.of(context).pop(true);
+                                      });
+                                      return ImageDialog();
                                     },
                                   );
                                 }
@@ -216,6 +237,8 @@ class _CabinState extends State<Cabin> {
                                         CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
                                         Navigator.pop(context);
                                       },
+                                      button1Title: 'Naaa',
+                                      button2Title: 'Haa',
                                     );
                                   },
                                 );
@@ -226,6 +249,7 @@ class _CabinState extends State<Cabin> {
                               /// Checks if user is in any cabin
                               if (hasData == true) {
                                 /// Show that user has been already in cabin
+                                if (!mounted) return;
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                   content: Text("You are already in a Cabin!"),
                                   duration: Duration(seconds: 1),
@@ -242,9 +266,10 @@ class _CabinState extends State<Cabin> {
                                         CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
                                             auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
                                         Navigator.of(context).pop();
-
                                         //   Navigator.pop(context);
                                       },
+                                      button1Title: 'Naa',
+                                      button2Title: 'Haa',
                                     );
                                   },
                                 );
