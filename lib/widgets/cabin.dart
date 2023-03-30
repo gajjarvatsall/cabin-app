@@ -173,8 +173,12 @@ class _CabinState extends State<Cabin> {
                                       return CustomDialog(
                                         title: "Bau var na lagadata ho",
                                         onPressed: () {
-                                          CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                              auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                          CabinRepository.updateCabinValue(
+                                              documentSnapshot.id,
+                                              true,
+                                              auth.currentUser!.uid,
+                                              auth.currentUser!.displayName.toString(),
+                                              auth.currentUser!.photoURL.toString());
                                           Navigator.pop(context);
                                         },
                                         button1Title: 'Naa',
@@ -185,9 +189,11 @@ class _CabinState extends State<Cabin> {
                                 }
                               }
                               if (documentSnapshot['isSelected'] == true) {
-                                if (documentSnapshot['userId'] != auth.currentUser!.uid && documentSnapshot['userId'] != null) {
+                                if (documentSnapshot['userId'] != auth.currentUser!.uid &&
+                                    documentSnapshot['userId'] != null) {
                                   if (!mounted) return;
                                   await showDialog(
+                                    barrierDismissible: false,
                                     context: context,
                                     builder: (_) {
                                       Future.delayed(const Duration(seconds: 2), () {
@@ -263,8 +269,12 @@ class _CabinState extends State<Cabin> {
                                     return CustomDialog(
                                       title: 'Bau Var Na Lagadata Ho',
                                       onPressed: () async {
-                                        CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                            auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                        CabinRepository.updateCabinValue(
+                                            documentSnapshot.id,
+                                            true,
+                                            auth.currentUser!.uid,
+                                            auth.currentUser!.displayName.toString(),
+                                            auth.currentUser!.photoURL.toString());
                                         Navigator.of(context).pop();
                                         //   Navigator.pop(context);
                                       },
@@ -276,10 +286,12 @@ class _CabinState extends State<Cabin> {
                               }
                             }
                             if (documentSnapshot['isSelected'] == true) {
-                              if (documentSnapshot['userId'] != auth.currentUser!.uid && documentSnapshot['userId'] != null) {
+                              if (documentSnapshot['userId'] != auth.currentUser!.uid &&
+                                  documentSnapshot['userId'] != null) {
                                 if (!mounted) return;
                                 await showDialog(
                                   context: context,
+                                  barrierDismissible: false,
                                   builder: (_) {
                                     Future.delayed(const Duration(seconds: 2), () {
                                       Navigator.of(context).pop(true);
