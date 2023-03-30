@@ -14,8 +14,8 @@ class CustomElevatedButtonIcon extends StatelessWidget {
       onPressed: () => onTap(),
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-        minimumSize: MaterialStateProperty.all(
-            Size(MediaQuery.of(context).size.width / 6, MediaQuery.of(context).size.height / 12)),
+        minimumSize:
+            MaterialStateProperty.all(Size(MediaQuery.of(context).size.width / 5, MediaQuery.of(context).size.height / 15)),
         elevation: MaterialStateProperty.all(0),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(

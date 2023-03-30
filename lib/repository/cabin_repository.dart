@@ -22,9 +22,9 @@ class CabinRepository {
     for (var element in documents) {
       if (element['userName'].toString().isNotEmpty) {
         if (formatted.isNotEmpty) {
-          formatted = '${formatted + element['userName']} is In Cabin ${element['cabinName']} • ';
+          formatted = '${formatted + element['userName']} is in Cabin ${element['cabinName']} • ';
         } else {
-          formatted = element['userName'] + ' is In Cabin ${element['cabinName']} • ';
+          formatted = element['userName'] + ' is in Cabin ${element['cabinName']} • ';
         }
       }
     }

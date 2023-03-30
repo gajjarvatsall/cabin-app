@@ -7,13 +7,15 @@ class CustomDialog extends StatelessWidget {
     required this.title,
     required this.button1Title,
     required this.button2Title,
-    this.onPressed,
+    this.onPressedPositive,
+    this.onPressedNegative,
   });
 
   final String title;
   final String button1Title;
   final String button2Title;
-  final void Function()? onPressed;
+  final void Function()? onPressedPositive;
+  final void Function()? onPressedNegative;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +23,14 @@ class CustomDialog extends StatelessWidget {
       title: Text(title),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
+          onPressed: onPressedNegative,
           child: Text(
             button1Title,
             style: AppTheme.titleText,
           ),
         ),
         TextButton(
-          onPressed: onPressed,
+          onPressed: onPressedPositive,
           child: Text(
             button2Title,
             style: AppTheme.titleText,
