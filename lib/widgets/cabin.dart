@@ -23,8 +23,6 @@ class _CabinState extends State<Cabin> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -101,9 +99,10 @@ class _CabinState extends State<Cabin> {
                                     builder: (BuildContext context) {
                                       isVisible = true;
                                       return CustomDialog(
-                                        title: 'Bus Dost Javu J Che?',
+                                        meme: 'assets/images/meme-2.png',
                                         onPressedPositive: () {
-                                          CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
+                                          CabinRepository.updateCabinValue(
+                                              documentSnapshot.id, false, DateTime.now(), '', '', '');
                                           Navigator.pop(context);
                                           isVisible = false;
                                         },
@@ -111,7 +110,7 @@ class _CabinState extends State<Cabin> {
                                           Navigator.of(context).pop();
                                           isVisible = false;
                                         },
-                                        button1Title: 'Naa',
+                                        button1Title: 'Nathi Javu',
                                         button2Title: 'Haa',
                                       );
                                     },
@@ -123,7 +122,6 @@ class _CabinState extends State<Cabin> {
                                 /// Checks if user is in any cabin
                                 if (hasData == true) {
                                   /// Show that user has been already in cabin
-                                  if (!mounted) return;
                                   _customSnackbar(context);
                                 } else {
                                   /// TAP-IN
@@ -133,15 +131,20 @@ class _CabinState extends State<Cabin> {
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
                                       return CustomDialog(
-                                        title: "Bau var na lagadata ho",
+                                        meme: 'assets/images/meme-4.png',
                                         onPressedPositive: () {
-                                          CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                              auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                          CabinRepository.updateCabinValue(
+                                              documentSnapshot.id,
+                                              true,
+                                              DateTime.now(),
+                                              auth.currentUser!.uid,
+                                              auth.currentUser!.displayName.toString(),
+                                              auth.currentUser!.photoURL.toString());
                                           Navigator.pop(context);
                                         },
                                         onPressedNegative: () => Navigator.pop(context),
-                                        button1Title: 'Naa',
-                                        button2Title: 'Haa',
+                                        button1Title: 'Nathi Javu',
+                                        button2Title: 'Saru',
                                       );
                                     },
                                   );
@@ -197,13 +200,13 @@ class _CabinState extends State<Cabin> {
                                   barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'Bus Dost Javu J Che?',
+                                      meme: 'assets/images/meme-2.png',
                                       onPressedPositive: () {
-                                        CabinRepository.updateCabinValue(documentSnapshot.id, false, '', '', '');
+                                        CabinRepository.updateCabinValue(documentSnapshot.id, false, DateTime.now(), '', '', '');
                                         Navigator.pop(context);
                                       },
                                       onPressedNegative: () => Navigator.pop(context),
-                                      button1Title: 'Naaa',
+                                      button1Title: 'Nathi Javu',
                                       button2Title: 'Haa',
                                     );
                                   },
@@ -215,7 +218,6 @@ class _CabinState extends State<Cabin> {
                               /// Checks if user is in any cabin
                               if (hasData == true) {
                                 /// Show that user has been already in cabin
-                                if (!mounted) return;
                                 _customSnackbar(context);
                               } else {
                                 /// TAP-IN
@@ -225,16 +227,21 @@ class _CabinState extends State<Cabin> {
                                   barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return CustomDialog(
-                                      title: 'Bau Var Na Lagadata Ho',
+                                      meme: 'assets/images/meme-4.png',
                                       onPressedPositive: () async {
-                                        CabinRepository.updateCabinValue(documentSnapshot.id, true, auth.currentUser!.uid,
-                                            auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
+                                        CabinRepository.updateCabinValue(
+                                            documentSnapshot.id,
+                                            true,
+                                            DateTime.now(),
+                                            auth.currentUser!.uid,
+                                            auth.currentUser!.displayName.toString(),
+                                            auth.currentUser!.photoURL.toString());
                                         Navigator.of(context).pop();
                                         //   Navigator.pop(context);
                                       },
                                       onPressedNegative: () => Navigator.pop(context),
-                                      button1Title: 'Naa',
-                                      button2Title: 'Haa',
+                                      button1Title: 'Nathi Javu',
+                                      button2Title: 'Saru',
                                     );
                                   },
                                 );

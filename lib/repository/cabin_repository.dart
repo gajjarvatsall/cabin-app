@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CabinRepository {
-  static Future<void> updateCabinValue(String id, bool isSelected, String userId, String userName, String userPic) async {
+  static Future<void> updateCabinValue(
+      String id, bool isSelected, DateTime startTime, String userId, String userName, String userPic) async {
     await FirebaseFirestore.instance
         .collection('cabins')
         .doc(id)
-        .update({'isSelected': isSelected, 'userId': userId, 'userName': userName, 'userPic': userPic});
+        .update({'isSelected': isSelected, 'startTime': startTime, 'userId': userId, 'userName': userName, 'userPic': userPic});
   }
 
   static Future<bool> doesUserIdAlreadyExist(String userId) async {

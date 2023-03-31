@@ -18,18 +18,19 @@ class CustomCabin extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final FirebaseAuth auth = FirebaseAuth.instance;
     return Tooltip(
-      message: documentSnapshot['isSelected'] == true ? "${documentSnapshot['userName']}" : "",
+      message: documentSnapshot['isSelected'] == true ? "" : "",
       child: Container(
         margin: const EdgeInsets.all(5),
         width: width / 12,
         height: width / 12,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            // color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
-            border: Border.all(
-              width: documentSnapshot['isSelected'] == true ? 0 : 1,
-              color: documentSnapshot['isSelected'] == true ? Colors.transparent : Colors.green,
-            )),
+          borderRadius: BorderRadius.circular(10),
+          // color: documentSnapshot['isSelected'] == true ? Colors.red.shade400 : Colors.white,
+          border: Border.all(
+            width: documentSnapshot['isSelected'] == true ? 0 : 1,
+            color: documentSnapshot['isSelected'] == true ? Colors.transparent : Colors.green,
+          ),
+        ),
         child: documentSnapshot['isSelected'] == true
             ? CustomCircleAvatar(
                 auth: auth,
