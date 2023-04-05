@@ -55,8 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomElevatedButtonIcon(
                       icon: const FaIcon(FontAwesomeIcons.google, color: Colors.black),
                       onTap: () async {
-                        bool result = await GoogleAuthentication.googleUserSignIn(context);
-                        if (result) {
+                        bool? result = await GoogleAuthentication.googleUserSignIn(context);
+                        if (result != null && result == true) {
                           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                         }
                       },

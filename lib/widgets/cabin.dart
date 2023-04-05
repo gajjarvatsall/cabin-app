@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cabin_app/repository/cabin_repository.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/utils/constants.dart';
@@ -263,7 +265,9 @@ class _CabinState extends State<Cabin> {
                               }
                             }
                           },
-                          child: CustomCabin(documentSnapshot: documentSnapshot),
+                          child: CustomCabin(
+                            documentSnapshot: documentSnapshot,
+                          ),
                         );
                       }).toList(),
                     );
