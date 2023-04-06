@@ -40,7 +40,7 @@ class CustomNavigation extends StatelessWidget {
               context: context,
               builder: (context) {
                 return CustomDialog(
-                  title: "Are you sure do you want to Logout?",
+                  meme: 'assets/images/meme-3.png',
                   onPressedPositive: () {
                     GoogleAuthentication.googleUserSignOut(context);
                     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);

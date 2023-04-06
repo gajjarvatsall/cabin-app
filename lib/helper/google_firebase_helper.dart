@@ -7,8 +7,9 @@ class GoogleAuthentication {
   static final auth = FirebaseAuth.instance;
   static final googleSignIn = GoogleSignIn();
 
-  static Future<bool> googleUserSignIn(context) async {
+  static Future<bool?> googleUserSignIn(BuildContext context) async {
     showDialog(
+      useRootNavigator: false, //this property needs to be added
       context: context,
       builder: (context) {
         return const Center(
@@ -18,7 +19,7 @@ class GoogleAuthentication {
         );
       },
     );
-    bool result = false;
+    bool? result;
     try {
       final googleAccount = await googleSignIn.signIn();
       final googleAuth = await googleAccount?.authentication;
@@ -27,19 +28,21 @@ class GoogleAuthentication {
       User? user = userCredential.user;
 
       if (user != null) {
-        if (userCredential.additionalUserInfo!.isNewUser) {
+        if (userCredential.additionalUserInfo?.isNewUser ?? true) {
           await FirebaseFirestore.instance
               .collection("users")
               .doc(user.uid)
               .set({"email": user.email, "name": user.displayName, "profilePic": user.photoURL});
+          Navigator.of(context).pop();
         }
         result = true;
       }
-      Navigator.of(context).pop();
-      return result;
-      Navigator.of(context).pop();
+
+      return result ?? null;
     } catch (e) {
-      print(e);
+      print('exception $e');
+      Navigator.of(context).pop();
+      result = false;
     }
     return result;
   }

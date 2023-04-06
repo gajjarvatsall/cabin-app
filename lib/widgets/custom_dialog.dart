@@ -4,23 +4,30 @@ import 'package:flutter/material.dart';
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
     super.key,
-    required this.title,
     required this.button1Title,
     required this.button2Title,
+    required this.meme,
     this.onPressedPositive,
     this.onPressedNegative,
   });
 
-  final String title;
   final String button1Title;
   final String button2Title;
+  final String meme;
   final void Function()? onPressedPositive;
   final void Function()? onPressedNegative;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
+      title: ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        child: Image.asset(
+          meme,
+          width: 350,
+          height: 200,
+        ),
+      ),
       actions: [
         TextButton(
           onPressed: onPressedNegative,
