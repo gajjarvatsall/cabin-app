@@ -30,9 +30,12 @@ class CustomNavigation extends StatelessWidget {
           height: height / 17,
           fit: BoxFit.cover,
         ),
-        Text(
-          "Welcome to CABIN CAST",
-          style: AppTheme.titleText.copyWith(fontWeight: FontWeight.bold),
+        Flexible(
+          child: Text(
+            "Welcome to CABIN CAST",
+            textAlign: TextAlign.center,
+            style: AppTheme.titleText.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
         GestureDetector(
           onTap: () {
