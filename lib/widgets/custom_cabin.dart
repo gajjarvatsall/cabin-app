@@ -3,7 +3,6 @@ import 'package:cabin_app/widgets/custom_circle_avtar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class CustomCabin extends StatefulWidget {
   CustomCabin({
@@ -19,54 +18,56 @@ class CustomCabin extends StatefulWidget {
 
 class _CustomCabinState extends State<CustomCabin> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final subjectTimer = BehaviorSubject<int>();
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return StreamBuilder<int>(
-      stream: subjectTimer,
-      builder: (context, snapshot) {
-        return GestureDetector(
-          child: Tooltip(
-            onTriggered: () {
-              DateTime startTime = widget.documentSnapshot['startTime'].toDate();
-              Duration diff = DateTime.now().difference(startTime);
-              int duration = diff.inMinutes;
-              subjectTimer.add(duration);
-            },
-            message: widget.documentSnapshot['isSelected'] == true
-                ? "${widget.documentSnapshot['userName']}\n"
-                    "Since : "
-                    "${snapshot.data} Minutes"
-                : "",
-            child: Container(
-              margin: const EdgeInsets.all(5),
-              width: width / 12,
-              height: width / 12,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  width: widget.documentSnapshot['isSelected'] == true ? 0 : 1,
-                  color: widget.documentSnapshot['isSelected'] == true ? Colors.transparent : Colors.green,
+    return Container(
+      margin: const EdgeInsets.all(5),
+      width: width / 12,
+      height: width / 12,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: widget.documentSnapshot['isSelected'] == true ? 0 : 1,
+          color: widget.documentSnapshot['isSelected'] == true ? Colors.transparent : Colors.green,
+        ),
+      ),
+      child: widget.documentSnapshot['isSelected'] == true
+          ? Stack(
+              children: [
+                CustomCircleAvatar(
+                  auth: auth,
+                  imgUrl: widget.documentSnapshot['userPic'],
+                  radius: 10,
                 ),
-              ),
-              child: widget.documentSnapshot['isSelected'] == true
-                  ? CustomCircleAvatar(
-                      auth: auth,
-                      imgUrl: widget.documentSnapshot['userPic'],
-                      radius: 10,
-                    )
-                  : Center(
-                      child: Text(
-                        "${widget.documentSnapshot['cabinName']}",
-                        style: AppTheme.titleText,
+                IconButton(
+                  onPressed: () {
+                    DateTime startTime = widget.documentSnapshot['startTime'].toDate();
+                    Duration duration = DateTime.now().difference(startTime);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text("${widget.documentSnapshot['userName']}"),
+                            Text("Since ${duration.inMinutes} Minutes"),
+                          ],
+                        ),
                       ),
-                    ),
+                    );
+                  },
+                  icon: Icon(Icons.remove_red_eye),
+                ),
+              ],
+            )
+          : Center(
+              child: Text(
+                "${widget.documentSnapshot['cabinName']}",
+                style: AppTheme.titleText,
+              ),
             ),
-          ),
-        );
-      },
     );
   }
 
