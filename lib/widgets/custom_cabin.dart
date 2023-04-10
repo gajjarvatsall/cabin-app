@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/widgets/profiled_photo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,13 +21,23 @@ class CustomCabin extends StatefulWidget {
 
 class _CustomCabinState extends State<CustomCabin> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final BehaviorSubject<int> subjetTime = BehaviorSubject();
-  int duration = 0;
+  final BehaviorSubject<int> subjectTimer = BehaviorSubject();
+  int sinceInSec = -1;
+  Timer? timer;
 
-  diffOfTime() {
-    DateTime startTime = widget.documentSnapshot['startTime'].toDate();
-    duration = DateTime.now().difference(startTime).inSeconds;
-    subjetTime.add(duration);
+  setTimer() {
+    if (widget.documentSnapshot['isSelected'] == true) {
+      if (timer?.isActive ?? false) {
+        timer?.cancel();
+      }
+      DateTime startTime = widget.documentSnapshot['startTime'].toDate();
+      sinceInSec = DateTime.now().difference(startTime).inSeconds;
+      subjectTimer.add(sinceInSec);
+      timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+        sinceInSec++;
+        subjectTimer.add(sinceInSec);
+      });
+    }
   }
 
   @override
@@ -56,7 +68,7 @@ class _CustomCabinState extends State<CustomCabin> {
                 IconButton(
                   color: Colors.white,
                   onPressed: () {
-                    diffOfTime();
+                    setTimer();
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -64,7 +76,13 @@ class _CustomCabinState extends State<CustomCabin> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text("${widget.documentSnapshot['userName']}"),
-                            Text("Since ${intToTimeLeft(duration)}:00"),
+                            StreamBuilder<int>(
+                              stream: subjectTimer,
+                              builder: (context, snapshot) {
+                                int timerValue = snapshot.data ?? 0;
+                                return Text("Since ${intToTimeLeft(timerValue)}");
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -83,13 +101,22 @@ class _CustomCabinState extends State<CustomCabin> {
     );
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer?.cancel();
+  }
+
   String intToTimeLeft(int value) {
-    int h, m;
+    int h, m, s;
     h = value ~/ 3600;
     m = ((value - h * 3600)) ~/ 60;
+    s = value - (h * 3600) - (m * 60);
     String hourLeft = h.toString().length < 2 ? "0" + h.toString() : h.toString();
     String minuteLeft = m.toString().length < 2 ? "0" + m.toString() : m.toString();
-    String result = "$hourLeft:$minuteLeft";
+    String secondsLeft = s.toString().length < 2 ? "0" + s.toString() : s.toString();
+    String result = "$hourLeft:$minuteLeft:$secondsLeft";
     return result;
   }
 }
