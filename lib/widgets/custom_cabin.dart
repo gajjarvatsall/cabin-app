@@ -14,14 +14,13 @@ class CustomCabin extends StatefulWidget {
   });
 
   QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot;
-
   @override
   State<CustomCabin> createState() => _CustomCabinState();
 }
 
 class _CustomCabinState extends State<CustomCabin> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final subjectTimer = BehaviorSubject<int>();
+  final BehaviorSubject<int> subjectTimer = BehaviorSubject();
 
   @override
   void initState() {

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 
 class Cabin extends StatefulWidget {
-  const Cabin({Key? key}) : super(key: key);
+  Cabin({Key? key}) : super(key: key);
 
   @override
   State<Cabin> createState() => _CabinState();
