@@ -1,5 +1,5 @@
 import 'package:cabin_app/utils/app_theme.dart';
-import 'package:cabin_app/widgets/custom_circle_avtar.dart';
+import 'package:cabin_app/widgets/profiled_photo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -46,34 +46,31 @@ class _CustomCabinState extends State<CustomCabin> {
           ? Stack(
               alignment: Alignment.topRight,
               children: [
-                CustomCircleAvatar(
+                ProfiledPhoto(
                   auth: auth,
                   imgUrl: widget.documentSnapshot['userPic'],
                   radius: 10,
                   width: width / 12,
                   height: width / 12,
                 ),
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    color: Colors.amberAccent,
-                    onPressed: () {
-                      diffOfTime();
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("${widget.documentSnapshot['userName']}"),
-                              Text("Since ${intToTimeLeft(duration)}:00"),
-                            ],
-                          ),
+                IconButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    diffOfTime();
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text("${widget.documentSnapshot['userName']}"),
+                            Text("Since ${intToTimeLeft(duration)}:00"),
+                          ],
                         ),
-                      );
-                    },
-                    icon: Icon(Icons.remove_red_eye),
-                  ),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.remove_red_eye),
                 ),
               ],
             )

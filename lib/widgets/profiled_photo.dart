@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class CustomCircleAvatar extends StatelessWidget {
-  CustomCircleAvatar({
+class ProfiledPhoto extends StatelessWidget {
+  ProfiledPhoto({
     super.key,
     required this.auth,
     required this.imgUrl,
