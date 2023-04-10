@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class CustomCircleAvatar extends StatelessWidget {
-  CustomCircleAvatar({
+class ProfiledPhoto extends StatelessWidget {
+  ProfiledPhoto({
     super.key,
     required this.auth,
     required this.imgUrl,
@@ -23,8 +23,8 @@ class CustomCircleAvatar extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius!),
       child: Image.network(
         imgUrl,
-        // width: width,
-        //  height: height,
+        width: width,
+        height: height,
         fit: BoxFit.contain,
         alignment: Alignment.center,
         errorBuilder: (context, url, error) => Image.asset(

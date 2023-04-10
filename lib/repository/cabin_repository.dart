@@ -17,18 +17,23 @@ class CabinRepository {
   }
 
   static Future<String> userData() async {
-    final QuerySnapshot result = await FirebaseFirestore.instance.collection('cabins').where('userName', isNotEqualTo: '').get();
-    final List<DocumentSnapshot> documents = result.docs;
     String formatted = '';
-    for (var element in documents) {
-      if (element['userName'].toString().isNotEmpty) {
-        if (formatted.isNotEmpty) {
-          formatted = '${formatted + element['userName']} is in Cabin ${element['cabinName']} • ';
-        } else {
-          formatted = element['userName'] + ' is in Cabin ${element['cabinName']} • ';
+    await Future.delayed(Duration(milliseconds: 500), () async {
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance.collection('cabins').where('userName', isNotEqualTo: '').get();
+      final List<DocumentSnapshot> documents = result.docs;
+
+      for (var element in documents) {
+        if (element['userName'].toString().isNotEmpty) {
+          if (formatted.isNotEmpty) {
+            formatted = '${formatted + element['userName']} is in Cabin ${element['cabinName']} • ';
+          } else {
+            formatted = element['userName'] + ' is in Cabin ${element['cabinName']} • ';
+          }
         }
+        //return formatted;
       }
-    }
+    });
     return formatted;
   }
 
