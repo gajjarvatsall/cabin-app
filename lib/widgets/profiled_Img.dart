@@ -23,8 +23,8 @@ class ProfiledPhoto extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius!),
       child: Image.network(
         imgUrl,
-        width: width,
-        height: height,
+        // width: width,
+        //  height: height,
         fit: BoxFit.contain,
         alignment: Alignment.center,
         errorBuilder: (context, url, error) => Image.asset(

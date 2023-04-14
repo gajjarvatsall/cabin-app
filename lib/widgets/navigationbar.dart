@@ -1,7 +1,7 @@
 import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/widgets/custom_dialog.dart';
-import 'package:cabin_app/widgets/profiled_photo.dart';
+import 'package:cabin_app/widgets/profiled_Img.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
