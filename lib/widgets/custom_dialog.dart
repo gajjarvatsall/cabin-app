@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
     super.key,
-    required this.button1Title,
-    required this.button2Title,
+    this.button1Title,
+    this.button2Title,
     required this.meme,
     this.onPressedPositive,
     this.onPressedNegative,
   });
 
-  final String button1Title;
-  final String button2Title;
+  final String? button1Title;
+  final String? button2Title;
   final String meme;
   final void Function()? onPressedPositive;
   final void Function()? onPressedNegative;
@@ -32,14 +32,14 @@ class CustomDialog extends StatelessWidget {
         TextButton(
           onPressed: onPressedNegative,
           child: Text(
-            button1Title,
+            button1Title!,
             style: AppTheme.titleText,
           ),
         ),
         TextButton(
           onPressed: onPressedPositive,
           child: Text(
-            button2Title,
+            button2Title!,
             style: AppTheme.titleText,
           ),
         ),
