@@ -22,23 +22,31 @@ class GoogleAuthentication {
     bool? result;
     try {
       final googleAccount = await googleSignIn.signIn();
-      final googleAuth = await googleAccount?.authentication;
-      final credential = GoogleAuthProvider.credential(idToken: googleAuth?.idToken, accessToken: googleAuth?.accessToken);
-      UserCredential userCredential = await auth.signInWithCredential(credential);
-      User? user = userCredential.user;
+      if (googleAccount!.email.contains("7span.com")) {
+        final googleAuth = await googleAccount.authentication;
+        final credential = GoogleAuthProvider.credential(idToken: googleAuth?.idToken, accessToken: googleAuth?.accessToken);
+        UserCredential userCredential = await auth.signInWithCredential(credential);
+        User? user = userCredential.user;
 
-      if (user != null) {
-        if (userCredential.additionalUserInfo?.isNewUser ?? true) {
-          await FirebaseFirestore.instance
-              .collection("users")
-              .doc(user.uid)
-              .set({"email": user.email, "name": user.displayName, "profilePic": user.photoURL});
-          Navigator.of(context).pop();
+        if (user != null) {
+          if (userCredential.additionalUserInfo?.isNewUser ?? true) {
+            {
+              await FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(user.uid)
+                  .set({"email": user.email, "name": user.displayName, "profilePic": user.photoURL});
+              Navigator.of(context).pop();
+            }
+            result = true;
+          }
         }
-        result = true;
+      } else {
+        result = false;
+        print("Wrong Email ID");
+        googleSignIn.signOut();
+        Navigator.of(context).pop();
       }
-
-      return result ?? null;
+      return result ?? true;
     } catch (e) {
       print('exception $e');
       Navigator.of(context).pop();
