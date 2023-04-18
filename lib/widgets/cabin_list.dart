@@ -70,9 +70,7 @@ class _CabinListState extends State<CabinList> {
             height: AppConstants.height,
           ),
           Row(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: FirebaseFirestore.instance.collection(cabins).limit(5).snapshots(),
