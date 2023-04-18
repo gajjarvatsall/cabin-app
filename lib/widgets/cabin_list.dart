@@ -69,45 +69,99 @@ class _CabinListState extends State<CabinList> {
           SizedBox(
             height: AppConstants.height,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance.collection(cabins).limit(5).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: Wrap(
-                        children: snapshot.data!.docs.map((documentSnapshot) {
-                          return CustomCabin(documentSnapshot: documentSnapshot);
-                        }).toList(),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance.collection(cabins).where("cabinId", isGreaterThan: 5).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Wrap(
-                      children: snapshot.data!.docs.map((documentSnapshot) {
-                        return CustomCabin(documentSnapshot: documentSnapshot);
-                      }).toList(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ],
-          ),
+          LayoutBuilder(builder: (context, constraints) {
+            if (constraints.maxWidth > 900) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance.collection(cabins).limit(5).snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Wrap(
+                          children: snapshot.data!.docs.map((documentSnapshot) {
+                            return CustomCabin(
+                              documentSnapshot: documentSnapshot,
+                              deviceWidth: constraints.maxWidth,
+                            );
+                          }).toList(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance.collection(cabins).where("cabinId", isGreaterThan: 5).snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Wrap(
+                          children: snapshot.data!.docs.map((documentSnapshot) {
+                            return CustomCabin(
+                              documentSnapshot: documentSnapshot,
+                              deviceWidth: constraints.maxWidth,
+                            );
+                          }).toList(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ],
+              );
+            } else {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance.collection(cabins).limit(5).snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: snapshot.data!.docs.map((documentSnapshot) {
+                            return CustomCabin(
+                              documentSnapshot: documentSnapshot,
+                              deviceWidth: constraints.maxWidth,
+                            );
+                          }).toList(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance.collection(cabins).where("cabinId", isGreaterThan: 5).snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: snapshot.data!.docs.map((documentSnapshot) {
+                            return CustomCabin(
+                              documentSnapshot: documentSnapshot,
+                              deviceWidth: constraints.maxWidth,
+                            );
+                          }).toList(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ],
+              );
+            }
+          }),
           SizedBox(
             height: AppConstants.height,
           ),
