@@ -22,11 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width / 40),
-        child: Column(
-          children: [
-            CustomNavigation(width: width, height: height, auth: auth),
-            CabinList(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomNavigation(width: width, height: height, auth: auth),
+              CabinList(),
+            ],
+          ),
         ),
       ),
     );

@@ -15,9 +15,11 @@ class CustomCabin extends StatefulWidget {
   CustomCabin({
     super.key,
     required this.documentSnapshot,
+    required this.deviceWidth,
   });
 
   final QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot;
+  double deviceWidth;
 
   @override
   State<CustomCabin> createState() => _CustomCabinState();
@@ -136,8 +138,8 @@ class _CustomCabinState extends State<CustomCabin> {
         children: [
           Container(
             margin: const EdgeInsets.all(5),
-            width: width / 12,
-            height: width / 12,
+            width: widget.deviceWidth > 900 ? width / 13 : width / 6,
+            height: widget.deviceWidth > 900 ? width / 13 : width / 6,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(

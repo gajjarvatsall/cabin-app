@@ -16,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final padding = MediaQuery.of(context).padding;
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -36,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             margin: EdgeInsets.only(top: 70),
             child: Flex(
-              direction: width < 900 ? Axis.vertical : Axis.horizontal,
+              direction: width < 1000 ? Axis.vertical : Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SvgPicture.asset(
