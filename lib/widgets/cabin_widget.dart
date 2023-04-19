@@ -164,6 +164,9 @@ class _CustomCabinState extends State<CustomCabin> {
             stream: subjectTimer,
             builder: (context, snapshot) {
               int timerValue = snapshot.data ?? 0;
+              if (timerValue > 10800) {
+                CabinRepository.updateCabinValue(widget.documentSnapshot.id, false, DateTime.now(), '', '', '');
+              }
               return Text(
                 widget.documentSnapshot['isSelected'] == true
                     ? "${widget.documentSnapshot['userName']}\n"

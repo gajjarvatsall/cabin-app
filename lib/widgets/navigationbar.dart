@@ -2,6 +2,7 @@ import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/widgets/custom_dialog.dart';
 import 'package:cabin_app/widgets/profiled_Img.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,9 +45,27 @@ class CustomNavigation extends StatelessWidget {
               builder: (context) {
                 return CustomDialog(
                   meme: 'assets/images/meme-3.png',
-                  onPressedPositive: () {
-                    GoogleAuthentication.googleUserSignOut(context);
-                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                  onPressedPositive: () async {
+                    try {
+                      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+                          await FirebaseFirestore.instance.collection('cabins').get();
+                      List<String> fieldValues = [];
+                      querySnapshot.docs.forEach((doc) {
+                        fieldValues.add(doc.data()['userId']);
+                      });
+                      if (fieldValues.contains(auth.currentUser!.uid)) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Kaha Bhai Kaha"),
+                          duration: Duration(seconds: 2),
+                        ));
+                      } else {
+                        GoogleAuthentication.googleUserSignOut(context);
+                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   onPressedNegative: () => Navigator.pop(context),
                   button1Title: 'Cancel',
