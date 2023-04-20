@@ -30,7 +30,7 @@ class _CustomCabinState extends State<CustomCabin> {
   final BehaviorSubject<int> subjectTimer = BehaviorSubject();
   bool isVisible = false;
   int sinceInSec = 0;
-  Timer? t;
+  Timer? timer;
 
   @override
   void initState() {
@@ -107,8 +107,8 @@ class _CustomCabinState extends State<CustomCabin> {
                   onPressedPositive: () async {
                     await CabinRepository.updateCabinValue(widget.documentSnapshot.id, true, DateTime.now(),
                         auth.currentUser!.uid, auth.currentUser!.displayName.toString(), auth.currentUser!.photoURL.toString());
-                    Navigator.pop(context);
                     setTimer();
+                    Navigator.of(context).pop();
                   },
                   onPressedNegative: () => Navigator.pop(context),
                   button1Title: 'Nathi Javu',
@@ -128,7 +128,9 @@ class _CustomCabinState extends State<CustomCabin> {
                 Future.delayed(const Duration(seconds: 2), () {
                   Navigator.of(context).pop(true);
                 });
-                return ImageDialog();
+                return ImageDialog(
+                  meme: 'assets/images/meme-1.png',
+                );
               },
             );
           }
@@ -182,17 +184,17 @@ class _CustomCabinState extends State<CustomCabin> {
   setTimer() {
     if (widget.documentSnapshot['isSelected'] == true) {
       sinceInSec = 0;
-      if (t != null) t!.cancel();
+      if (timer != null) timer!.cancel();
       DateTime startTime = widget.documentSnapshot['startTime'].toDate();
       sinceInSec = DateTime.now().difference(startTime).inSeconds;
       subjectTimer.add(sinceInSec);
-      t = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
         sinceInSec++;
         subjectTimer.add(sinceInSec);
       });
     } else {
       sinceInSec = 0;
-      if (t != null) t!.cancel();
+      if (timer != null) timer!.cancel();
     }
   }
 
