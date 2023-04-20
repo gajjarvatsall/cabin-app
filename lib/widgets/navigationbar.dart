@@ -1,6 +1,7 @@
 import 'package:cabin_app/helper/google_firebase_helper.dart';
 import 'package:cabin_app/utils/app_theme.dart';
 import 'package:cabin_app/widgets/custom_dialog.dart';
+import 'package:cabin_app/widgets/custom_image_dailog.dart';
 import 'package:cabin_app/widgets/profiled_Img.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,40 +40,42 @@ class CustomNavigation extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return CustomDialog(
-                  meme: 'assets/images/meme-3.png',
-                  onPressedPositive: () async {
-                    try {
-                      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-                          await FirebaseFirestore.instance.collection('cabins').get();
-                      List<String> fieldValues = [];
-                      querySnapshot.docs.forEach((doc) {
-                        fieldValues.add(doc.data()['userId']);
-                      });
-                      if (fieldValues.contains(auth.currentUser!.uid)) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Kaha Bhai Kaha"),
-                          duration: Duration(seconds: 2),
-                        ));
-                      } else {
-                        GoogleAuthentication.googleUserSignOut(context);
-                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  onPressedNegative: () => Navigator.pop(context),
-                  button1Title: 'Cancel',
-                  button2Title: 'Ok',
-                );
-              },
-            );
+          onTap: () async {
+            QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance.collection('cabins').get();
+            List<String> fieldValues = [];
+            querySnapshot.docs.forEach((doc) {
+              fieldValues.add(doc.data()['userId']);
+            });
+            if (fieldValues.contains(auth.currentUser!.uid)) {
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (_) {
+                  Future.delayed(const Duration(seconds: 4), () {
+                    Navigator.of(context).pop(true);
+                  });
+                  return ImageDialog(
+                    meme: 'assets/images/meme-5.png',
+                  );
+                },
+              );
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return CustomDialog(
+                    meme: 'assets/images/meme-3.png',
+                    onPressedPositive: () async {
+                      GoogleAuthentication.googleUserSignOut(context);
+                      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                    },
+                    onPressedNegative: () => Navigator.pop(context),
+                    button1Title: 'Cancel',
+                    button2Title: 'Ok',
+                  );
+                },
+              );
+            }
           },
           child: SizedBox(
             height: 50,
